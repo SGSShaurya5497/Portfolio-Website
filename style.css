@@ -1,0 +1,140 @@
+/* ============================
+   Glitchcore + Cyberpunk UI
+   Lots of transitions / animations
+   ============================ */
+
+:root{
+  /* default: glitch theme */
+  --bg: #0b0710;
+  --fg: #e7e9ee;
+  --muted: #b9c0c8;
+  --accent1: #ff0055;
+  --accent2: #00ffd1;
+  --glass: rgba(255,255,255,0.03);
+  --card: rgba(10,9,12,0.55);
+  --grid: rgba(255,255,255,0.02);
+  --display: 'Orbitron', sans-serif;
+  --mono: 'Roboto Mono', monospace;
+  --radius: 12px;
+  --transition: 300ms cubic-bezier(.2,.9,.2,1);
+}
+
+/* base */
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--bg);color:var(--fg);font-family:var(--mono);-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+a{color:inherit}
+button{font-family:inherit;cursor:pointer;border:0}
+
+/* page load */
+body{opacity:0;animation:pageIn .9s ease forwards 0.05s}
+@keyframes pageIn{to{opacity:1}}
+
+/* canvas */
+.bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* control bar */
+.control-bar{position:fixed;left:12px;right:12px;top:12px;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 12px;border-radius:12px;background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));backdrop-filter: blur(6px);z-index:60;transition:transform var(--transition), box-shadow var(--transition);box-shadow:0 8px 30px rgba(0,0,0,0.55)}
+.brand{font-family:var(--display);letter-spacing:6px;font-weight:700}
+.control-items{display:flex;gap:10px;align-items:center}
+.switch input{margin-right:6px}
+.btn.tiny{padding:6px 10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--fg)}
+
+/* header / nav */
+.site-header{position:fixed;left:0;right:0;top:72px;z-index:50;display:flex;justify-content:center;pointer-events:auto;transition:all .45s ease}
+.nav ul{display:flex;gap:12px;list-style:none;padding:8px 14px;margin:0;background:rgba(0,0,0,0.24);border-radius:999px;border:1px solid rgba(255,255,255,0.02)}
+.nav a{display:inline-block;padding:8px 12px;border-radius:8px;font-weight:700;transition:transform .22s, box-shadow .22s}
+.nav a:hover{transform:translateY(-6px);filter:drop-shadow(0 12px 30px rgba(255,0,85,0.06))}
+
+/* main layout */
+.main{position:relative;z-index:5;max-width:1100px;margin:0 auto;padding:140px 20px 80px}
+
+/* section titles */
+.section-title{font-family:var(--display);font-size:28px;margin:0 0 12px;letter-spacing:3px}
+.glitch{position:relative;display:inline-block}
+.glitch::before, .glitch::after{content:attr(class);display:none}
+
+/* hero */
+.hero{text-align:center;padding:48px 20px 36px;position:relative}
+.hero-title{font-family:var(--display);font-size:78px;margin:0;letter-spacing:10px;position:relative;display:inline-block}
+.hero-title::before, .hero-title::after{
+  content:attr(data-text);
+  position:absolute;left:0;top:0;pointer-events:none;mix-blend-mode:screen;opacity:0.9;
+}
+.hero-title::before{color:var(--accent1);transform:translateX(-6px) skewX(-6deg)}
+.hero-title::after{color:var(--accent2);transform:translateX(6px) skewX(6deg)}
+.hero-title{animation:floaty 4.4s ease-in-out infinite alternate}
+@keyframes floaty{from{transform:translateY(0)}to{transform:translateY(-8px)}}
+
+.hero-sub{margin-top:8px;color:var(--muted)}
+.hero-actions{margin-top:18px;display:flex;gap:12px;justify-content:center}
+.cta{display:inline-block;padding:12px 18px;border-radius:12px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);font-weight:800;transition:transform var(--transition), box-shadow var(--transition)}
+.cta.ghost{background:transparent;border:1px dashed rgba(255,255,255,0.04)}
+.cta:hover{transform:translateY(-8px);box-shadow:0 40px 120px rgba(0,0,0,0.6)}
+
+/* hero stats */
+.hero-stats{display:flex;gap:14px;justify-content:center;margin-top:22px}
+.stat{background:var(--card);padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);transition:transform .5s}
+.stat:hover{transform:translateY(-8px)}
+
+/* about */
+.about{padding:28px 0}
+.about-grid{display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap}
+.about-left{flex:1;min-width:300px}
+.lead{color:var(--muted);margin:8px 0 18px}
+.facts{list-style:none;padding:0;margin:6px 0 18px}
+.facts li{padding:6px 0}
+.avatar{width:160px;height:160px;border-radius:12px;background:linear-gradient(135deg,var(--accent1),var(--accent2));box-shadow:0 20px 60px rgba(0,0,0,0.6);transition:transform .6s}
+.avatar:hover{transform:scale(1.03) rotate(-1deg)}
+.mini-card{display:flex;align-items:center;gap:10px;margin-top:12px}
+.badge{color:var(--accent2)}
+
+/* projects */
+.projects{padding:30px 0}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:16px}
+.project-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);transition:transform .36s, box-shadow .36s, filter .36s;transform-origin:center}
+.project-card:hover{transform:translateY(-12px) rotateX(2deg);box-shadow:0 40px 120px rgba(0,0,0,0.6)}
+.project-thumb{height:100px;border-radius:8px;background:#0b0b0f;display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--fg);letter-spacing:2px}
+.project-meta{margin-top:10px;color:var(--muted)}
+.small-link{display:inline-block;margin-top:6px;color:var(--accent2)}
+
+/* timeline */
+.timeline{padding:28px 0}
+.timeline-list{max-width:760px;padding-left:14px}
+.timeline-list li{margin:10px 0;padding-left:8px;border-left:2px dashed rgba(255,255,255,0.02)}
+
+/* contact */
+.contact-form{display:grid;gap:10px;max-width:640px}
+.contact-form input, .contact-form textarea{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);padding:12px;border-radius:8px;color:var(--fg)}
+.form-row{display:flex;gap:8px}
+
+/* footer */
+.site-footer{text-align:center;padding:18px 10px;border-top:1px solid rgba(255,255,255,0.02);opacity:0.9}
+
+/* small screens */
+@media (max-width:720px){
+  .hero-title{font-size:44px;letter-spacing:6px}
+  .site-header{top:90px}
+  .control-bar{left:8px;right:8px;top:8px}
+  .projects-grid{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+}
+
+/* =========================
+   Theme: Cyberpunk (alt)
+   toggled by .theme-cyber on body
+   ========================= */
+body.theme-cyber{
+  --bg:#020812;
+  --fg:#dff7fb;
+  --muted:#98bfc8;
+  --accent1:#00e5ff;
+  --accent2:#ff1aff;
+  --card: rgba(2,6,12,0.6);
+}
+body.theme-cyber .hero-title::before{color:var(--accent1);transform:translateX(-4px)}
+body.theme-cyber .hero-title::after{color:var(--accent2);transform:translateX(4px)}
+
+/* reduce-motion support */
+@media (prefers-reduced-motion: reduce){
+  .hero-title, .project-card, .avatar { animation: none !important; transition: none !important; transform: none !important; }
+  body{animation:none}
+}

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Shaurya Chaudhary — Glitchcore / Cyberpunk Portfolio</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto+Mono&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- External libs: GSAP (animations), jsPDF (resume generation) -->
+  <script src="https://unpkg.com/gsap@3/dist/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+</head>
+<body class="theme-glitch">
+
+  <!-- canvas for glitch/noise -->
+  <canvas id="bg-canvas" class="bg-canvas" aria-hidden="true"></canvas>
+
+  <!-- Control bar -->
+  <div class="control-bar" role="toolbar" aria-label="site controls">
+    <div class="brand" aria-hidden="true">sha u r y a</div>
+    <div class="control-items">
+      <label class="switch">
+        <input id="soundToggle" type="checkbox" checked><span>sound</span>
+      </label>
+      <label class="perf">
+        <span>perf</span>
+        <select id="perfSelect" title="Performance">
+          <option value="high">high</option>
+          <option value="med" selected>medium</option>
+          <option value="low">low</option>
+        </select>
+      </label>
+      <button id="themeSwitch" class="btn tiny" aria-pressed="false">switch vibe</button>
+    </div>
+  </div>
+
+  <!-- Header / nav -->
+  <header class="site-header" id="siteHeader" role="banner">
+    <nav class="nav" role="navigation" aria-label="main">
+      <ul>
+        <li><a href="https://instagram.com/sinxshaurya" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="https://github.com/SGSShaurya5497" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="tel:8527476722">8527476722</a></li>
+        <li><a href="https://www.linkedin.com/in/sinxshaurya/" target="_blank" rel="noopener">LinkedIn</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="main" id="main">
+    <!-- HERO -->
+    <section class="hero" id="hero" aria-labelledby="heroTitle">
+      <h1 id="heroTitle" class="hero-title" data-text="shaurya">shaurya</h1>
+      <p class="hero-sub">Developer • Creative Coder • Glitchophile</p>
+      <div class="hero-actions">
+        <a class="cta" href="#projects">see my work</a>
+        <a class="cta ghost" href="#about">about</a>
+      </div>
+      <div class="hero-stats" aria-hidden="true">
+        <div class="stat"><strong id="statProjects">1</strong><small>projects</small></div>
+        <div class="stat"><strong>web</strong><small>dev</small></div>
+        <div class="stat"><strong>cyber</strong><small>security</small></div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="about" aria-labelledby="aboutTitle">
+      <h2 id="aboutTitle" class="section-title"><span class="glitch">about</span></h2>
+      <div class="about-grid">
+        <div class="about-left">
+          <p class="lead">I build glitchy, retro-futuristic web experiences — I love creative code, cybersecurity, AI, and open-source. This site is handcrafted and updated by me.</p>
+
+          <ul class="facts">
+            <li><strong>Name:</strong> Shaurya Chaudhary</li>
+            <li><strong>Based:</strong> India</li>
+            <li><strong>Interests:</strong> Web Dev · UI/UX · Security · AI</li>
+            <li><strong>Repo:</strong> <a href="https://github.com/SGSShaurya5497/sihprototype" target="_blank" rel="noopener">sihprototype</a></li>
+          </ul>
+
+          <div class="buttons-row">
+            <button id="downloadResume" class="btn">download resume</button>
+            <a class="btn ghost" href="mailto:your@email.com">email</a>
+          </div>
+        </div>
+
+        <aside class="about-right" aria-hidden="true">
+          <div class="avatar"></div>
+          <div class="mini-card">
+            <svg viewBox="0 0 120 120" width="86" height="86" class="badge">
+              <circle cx="60" cy="60" r="48" fill="none" stroke="currentColor" stroke-width="3"/>
+              <rect x="36" y="36" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.3"/>
+            </svg>
+            <div class="mini-meta">
+              <strong>Glitchcore</strong>
+              <small>designer & dev</small>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="projects" aria-labelledby="projectsTitle">
+      <h2 id="projectsTitle" class="section-title"><span class="glitch">projects</span></h2>
+      <p class="muted">Selected projects pulled from your public profile — editable.</p>
+
+      <div id="projectsRow" class="projects-grid" aria-live="polite"></div>
+
+      <div class="projects-footer">
+        <button id="moreProjects" class="btn">show more</button>
+      </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section id="timeline" class="timeline" aria-labelledby="timelineTitle">
+      <h2 id="timelineTitle" class="section-title"><span class="glitch">timeline</span></h2>
+      <ol class="timeline-list">
+        <li><time>2024</time> Hackathon prototypes & experiments</li>
+        <li><time>2025</time> Growing portfolio & creative experiments</li>
+      </ol>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="contact" aria-labelledby="contactTitle">
+      <h2 id="contactTitle" class="section-title"><span class="glitch">contact</span></h2>
+      <p>Reach me at <a href="mailto:your@email.com">your@email.com</a> or via LinkedIn.</p>
+
+      <form id="contactForm" class="contact-form" novalidate>
+        <input name="name" placeholder="your name" required />
+        <input name="email" placeholder="email" required />
+        <textarea name="msg" placeholder="message" rows="4" required></textarea>
+        <div class="form-row">
+          <button type="submit" class="btn">send</button>
+          <button type="button" id="muteBtn" class="btn ghost">mute sfx</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2025 Shaurya Chaudhary — handcrafted glitchcore</p>
+  </footer>
+
+  <!-- Script -->
+  <script src="script.js" defer></script>
+</body>
+</html>
