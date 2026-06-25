@@ -55,8 +55,10 @@ export const Home = () => {
           if (entry.isIntersecting) {
             const section = entry.target;
             observer.unobserve(section);
-            if (visibleSections.includes(section)) return;
-            setVisibleSections(prevSections => [...prevSections, section]);
+            setVisibleSections(prevSections => {
+              if (prevSections.includes(section)) return prevSections;
+              return [...prevSections, section];
+            });
           }
         });
       },
@@ -80,7 +82,7 @@ export const Home = () => {
       sectionObserver.disconnect();
       indicatorObserver.disconnect();
     };
-  }, [visibleSections]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className={styles.home}>
