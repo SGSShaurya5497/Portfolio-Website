@@ -1,0 +1,275 @@
+.skills {
+  width: 100vw;
+  padding-top: var(--space5XL);
+  padding-bottom: var(--space5XL);
+  display: flex;
+  justify-content: center;
+
+  @media (--mediaTablet) {
+    padding-top: var(--space4XL);
+    padding-bottom: var(--space4XL);
+  }
+
+  @media (--mediaMobile) {
+    padding-top: var(--space3XL);
+    padding-bottom: var(--space3XL);
+  }
+}
+
+.inner {
+  max-width: var(--maxWidthL);
+  width: 100%;
+  padding: 0 var(--spaceOuter);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space3XL);
+
+  @media (--mediaTablet) {
+    padding: 0 80px 0 160px;
+  }
+
+  @media (--mediaMobile) {
+    padding: 0 var(--spaceOuter);
+  }
+}
+
+/* ── Section header ─────────────────────────────────────────────────────────── */
+.tag {
+  display: grid;
+  grid-template-columns: var(--space4XL) 1fr;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: var(--spaceXL);
+}
+
+.tagText {
+  font-size: var(--fontSizeBodyS);
+  font-weight: var(--fontWeightMedium);
+  color: var(--primary);
+  opacity: 0;
+  transition-property: opacity;
+  transition-timing-function: var(--bezierFastoutSlowin);
+  transition-duration: var(--durationM);
+  transition-delay: 1.3s;
+
+  @media (--mediaUseMotion) {
+    transition-property: opacity, transform;
+    transform: translate3d(calc(var(--spaceM) * -1), 0, 0);
+  }
+
+  &[data-visible='true'] {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.title {
+  margin-bottom: var(--spaceL);
+  opacity: 0;
+  transition-property: opacity;
+  transition-timing-function: var(--bezierFastoutSlowin);
+  transition-duration: var(--durationXL);
+  transition-delay: var(--durationM);
+
+  @media (--mediaUseMotion) {
+    transition-property: transform, opacity;
+    transform: translate3d(0, var(--spaceL), 0);
+  }
+
+  &[data-visible='true'] {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.description {
+  opacity: 0;
+  color: var(--textBody);
+  max-width: 480px;
+  transition-property: opacity;
+  transition-timing-function: var(--bezierFastoutSlowin);
+  transition-duration: var(--durationXL);
+  transition-delay: var(--durationL);
+
+  @media (--mediaUseMotion) {
+    transition-property: transform, opacity;
+    transform: translate3d(0, var(--spaceL), 0);
+  }
+
+  &[data-visible='true'] {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* ── Card grid ──────────────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spaceL);
+
+  @media (--mediaTablet) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (--mediaMobile) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spaceM);
+  }
+
+  @media (max-width: 380px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Individual card ────────────────────────────────────────────────────────── */
+.card {
+  --rx: 0deg;
+  --ry: 0deg;
+  --accent: var(--primary);
+
+  position: relative;
+  perspective: 700px;
+  cursor: default;
+
+  /* Entrance animation */
+  opacity: 0;
+  transition-property: opacity;
+  transition-timing-function: var(--bezierFastoutSlowin);
+  transition-duration: var(--durationXL);
+  transition-delay: var(--delay, 0ms);
+
+  @media (--mediaUseMotion) {
+    transition-property: transform, opacity;
+    transform: translate3d(0, var(--spaceL), 0);
+  }
+
+  &[data-visible='true'] {
+    transform: none;
+    opacity: 1;
+  }
+
+  /* 3D tilt on hover */
+  &:hover {
+    z-index: 2;
+
+    & .cardGlow {
+      opacity: 1;
+    }
+  }
+}
+
+/* Glow halo that appears on hover */
+.cardGlow {
+  position: absolute;
+  inset: -1px;
+  border-radius: 18px;
+  background: radial-gradient(
+    ellipse at 50% 0%,
+    color-mix(in lab, var(--accent) 40%, transparent) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity var(--durationM) ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Card face (the tiltable element) */
+.card > .cardGlow + * ,
+.cardIcon,
+.cardName,
+.cardBadge {
+  position: relative;
+  z-index: 1;
+}
+
+.card:hover .cardIcon,
+.card:hover .cardName,
+.card:hover .cardBadge {
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+}
+
+/* Glassmorphic card face — apply the 3D tilt to everything inside */
+.card > * {
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 120ms linear, box-shadow var(--durationM) ease, border-color var(--durationM) ease;
+}
+
+/* Card shell */
+.card {
+  background: color-mix(in lab, var(--backgroundLight) 60%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid color-mix(in lab, var(--primary) 15%, transparent);
+  border-radius: 18px;
+  padding: var(--spaceXL) var(--spaceL);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spaceS);
+  transform-style: preserve-3d;
+  transition:
+    opacity var(--durationXL) var(--bezierFastoutSlowin) var(--delay, 0ms),
+    transform 120ms linear,
+    border-color var(--durationM) ease,
+    box-shadow var(--durationM) ease;
+
+  &:hover {
+    border-color: color-mix(in lab, var(--accent) 55%, transparent);
+    box-shadow:
+      0 0 0 1px color-mix(in lab, var(--accent) 20%, transparent),
+      0 12px 48px color-mix(in lab, var(--accent) 18%, transparent),
+      0 4px 16px color-mix(in lab, var(--accent) 10%, transparent);
+  }
+
+  @media (--mediaUseMotion) {
+    &[data-visible='false'],
+    &:not([data-visible='true']) {
+      transform: translate3d(0, var(--spaceL), 0);
+    }
+
+    &[data-visible='true'] {
+      transform: rotateX(var(--rx)) rotateY(var(--ry));
+    }
+  }
+}
+
+.cardIcon {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  margin-bottom: var(--spaceXS);
+  filter: drop-shadow(0 2px 8px color-mix(in lab, var(--accent) 40%, transparent));
+  transition: filter var(--durationM) ease, transform var(--durationM) ease;
+
+  .card:hover & {
+    filter: drop-shadow(0 4px 16px color-mix(in lab, var(--accent) 60%, transparent));
+    transform: translateY(-2px) scale(1.06);
+  }
+}
+
+.cardName {
+  font-size: var(--fontSizeBodyM);
+  font-weight: var(--fontWeightMedium);
+  color: var(--textTitle);
+  line-height: 1.2;
+}
+
+.cardBadge {
+  font-size: var(--fontSizeBodyXS);
+  font-weight: var(--fontWeightMedium);
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: color-mix(in lab, var(--accent) 12%, transparent);
+  border: 1px solid color-mix(in lab, var(--accent) 25%, transparent);
+  border-radius: 6px;
+  padding: 2px 8px;
+  transition: background var(--durationM) ease, border-color var(--durationM) ease;
+
+  .card:hover & {
+    background: color-mix(in lab, var(--accent) 20%, transparent);
+    border-color: color-mix(in lab, var(--accent) 40%, transparent);
+  }
+}
