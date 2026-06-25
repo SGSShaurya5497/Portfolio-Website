@@ -10,18 +10,6 @@ import {
   useRouteError,
 } from '@remix-run/react';
 import { createCookieSessionStorage, json } from '@remix-run/node';
-
-const { getSession, commitSession } = createCookieSessionStorage({
-  cookie: {
-    name: '__session',
-    httpOnly: true,
-    maxAge: 604_800,
-    path: '/',
-    sameSite: 'lax',
-    secrets: [process.env.SESSION_SECRET || 'default-secret'],
-    secure: process.env.NODE_ENV === 'production',
-  },
-});
 import { ThemeProvider, themeStyles } from '~/components/theme-provider';
 import GothamBook from '~/assets/fonts/gotham-book.woff2';
 import GothamMedium from '~/assets/fonts/gotham-medium.woff2';
@@ -34,6 +22,18 @@ import config from '~/config.json';
 import styles from './root.module.css';
 import './reset.module.css';
 import './global.module.css';
+
+const { getSession } = createCookieSessionStorage({
+  cookie: {
+    name: '__session',
+    httpOnly: true,
+    maxAge: 604_800,
+    path: '/',
+    sameSite: 'lax',
+    secrets: [process.env.SESSION_SECRET || 'default-secret'],
+    secure: process.env.NODE_ENV === 'production',
+  },
+});
 
 export const links = () => [
   {
@@ -67,14 +67,10 @@ export const loader = async ({ request }) => {
   const session = await getSession(request.headers.get('Cookie'));
   const theme = session.get('theme') || 'dark';
 
-  return json(
-    { canonicalUrl, theme },
-    {
-      headers: {
-        'Set-Cookie': await commitSession(session),
-      },
-    }
-  );
+  // Do NOT commitSession here — returning Set-Cookie on every GET request
+  // causes Remix to revalidate infinitely (the reload loop on Vercel).
+  // The cookie is only written when the user changes the theme via /api/set-theme.
+  return json({ canonicalUrl, theme });
 };
 
 export default function App() {
